@@ -1,6 +1,6 @@
-# Assignment : User Photo Upload
+# Ratio Backend
 
-This repository contains base
+This repository contains base code for ratio backend.
 
 ## Installation
 
@@ -19,7 +19,7 @@ This repository contains base
 
 ## Usage
 
-1. Start the server:
+1. Start the server: npm start ( already added in package.json)
 
 
 2. Access the application on `http://localhost:3000`.
@@ -34,17 +34,6 @@ This repository contains base
 ### User
 
 The `User` model represents registered users.
-
-#### Fields
-
-- `username`: Name of the user. Required, must be between 3 and 20 characters.
-- `email`: Email address of the user. Required, unique, and must be a valid email address.
-- `password`: Password of the user. Required, hashed for security.
-- `images`: Array of uploaded photo filenames.
-- `createdAt`: Date and time when the user was created.
-
-
-
 
 
 Feel free to explore more by trying out the application!
