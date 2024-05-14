@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const userController = require("../controllers/userController");
+const messageController = require("../controllers/messageController");
 
 router.route("/").get(userController.getAllUsers);
 
@@ -25,6 +26,11 @@ router
 router
   .route("/updateNoficationSettings")
   .patch(userController.updateNotificationSettings);
+// Route to send a message
+router.post('/messages', messageController.sendMessage);
+
+// Route to retrieve messages for a conversation
+router.get('/messages/:conversationId', messageController.getConversationMessages);
 
 router.route("/createSettings").post(userController.createSettings);
 router.route("/updateSettings").patch(userController.updateSettings);
