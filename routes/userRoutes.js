@@ -27,10 +27,11 @@ router
   .route("/updateNoficationSettings")
   .patch(userController.updateNotificationSettings);
 // Route to send a message
-router.post('/messages', messageController.sendMessage);
-
+router.post('/messages',verifyToken, messageController.sendMessage);
+// Route to get all Conversations of user. 
+router.get('/conversations', verifyToken, messageController.getUserConversations);
 // Route to retrieve messages for a conversation
-router.get('/messages/:conversationId', messageController.getConversationMessages);
+router.get('/messages/:conversationId',verifyToken, messageController.getConversationMessages);
 
 router.route("/createSettings").post(userController.createSettings);
 router.route("/updateSettings").patch(userController.updateSettings);

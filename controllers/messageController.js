@@ -52,4 +52,20 @@ exports.getConversationMessages = async (req, res) => {
   }
 };
 
+// Function to retrieve a user's conversations
+exports.getUserConversations = async (req, res) => {
+  try {
+    const userId = req.user._id; // Assuming you have middleware for authentication (e.g., 'isAuthenticated')
+
+    const conversations = await Conversation.find({
+      participants: userId
+    }).populate('participants', 'name images') // Populate user data for display
+      .sort({ updatedAt: -1 }); // Sort by most recent update
+
+    res.status(200).json(conversations); 
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to retrieve conversations' });
+  }
+};
 module.exports = exports;
