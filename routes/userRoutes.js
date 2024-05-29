@@ -2,7 +2,8 @@ const express = require("express");
 const router = express.Router();
 
 const userController = require("../controllers/userController");
-const messageController = require("../controllers/messageController");
+// const messageController = require("../controllers/messageController");
+import { sendMessage,getConversationMessages,getUserConversations} from "../controllers/messageController.mjs";
 
 router.route("/").get(userController.getAllUsers);
 
@@ -27,11 +28,11 @@ router
   .route("/updateNoficationSettings")
   .patch(userController.updateNotificationSettings);
 // Route to send a message
-router.post('/messages',verifyToken, messageController.sendMessage);
+router.post('/messages',verifyToken, sendMessage);
 // Route to get all Conversations of user. 
-router.get('/conversations', verifyToken, messageController.getUserConversations);
+router.get('/conversations', verifyToken, getUserConversations);
 // Route to retrieve messages for a conversation
-router.get('/messages/:conversationId',verifyToken, messageController.getConversationMessages);
+router.get('/messages/:conversationId',verifyToken, getConversationMessages);
 
 router.route("/createSettings").post(userController.createSettings);
 router.route("/updateSettings").patch(userController.updateSettings);
