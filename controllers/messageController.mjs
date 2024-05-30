@@ -37,7 +37,7 @@ export async function sendMessage (req, res) {
 
 // Function to retrieve messages for a conversation
 export async function getConversationMessages(req, res) {
-  try {
+  try { 
     const conversation = await Conversation.findById(req.params.conversationId)
       .populate('messages.sender messages.recipient'); // Populate sender and recipient details
 
@@ -55,7 +55,7 @@ export async function getConversationMessages(req, res) {
 // Function to retrieve a user's conversations
 export async function getUserConversations  (req, res){
   try {
-    const userId = req.user._id; // Assuming you have middleware for authentication (e.g., 'isAuthenticated')
+    const userId = req.user._id;
 
     const conversations = await Conversation.find({
       participants: userId
@@ -68,3 +68,4 @@ export async function getUserConversations  (req, res){
     res.status(500).json({ error: 'Failed to retrieve conversations' });
   }
 };
+

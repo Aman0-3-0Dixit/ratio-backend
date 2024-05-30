@@ -1,22 +1,22 @@
-const catchAsync = require("../utils/catchAsync");
-const User = require("../models/userModel");
-const AppError = require("../utils/appError");
-const prefSettings = require("../models/prefSettingsModel.js");
-const Report = require("../models/reportsModel.js");
-const NotificationSettings = require("../models/notificationModel.js");
-const UserSettings = require("../models/settingsModel.js");
-const { sendVerificationMail } = require("../utils/mail/mail.js");
+import catchAsync from "../utils/catchAsync.js"
+import User from "../models/userModel.mjs"
+import AppError from "../utils/appError.mjs"
+import prefSettings from "../models/prefSettingsModel.js"
+import Report from "../models/reportsModel.js"
+import NotificationSettings from "../models/notificationModel.js"
+import UserSettings from "../models/settingsModel.js"
+import { sendVerificationMail } from "../utils/mail/mail.js"
 
-exports.getAllUsers = catchAsync(async (req, res, next) => {
+export async function getAllUsers (req,res){
   const users = await User.find({});
   res.status(200).json({
     status: "success",
     results: users.length,
     users,
   });
-});
+};
 
-exports.getUserById = catchAsync(async (req, res, next) => {
+export async function getUserById  (req,res) {
   const id = req.params.id;
   const user = await User.findById(id);
   if (!user) {
@@ -27,9 +27,9 @@ exports.getUserById = catchAsync(async (req, res, next) => {
     status: "success",
     user,
   });
-});
+};
 
-exports.getWelcomePageDetails = catchAsync(async (req, res, next) => {
+export async function getWelcomePageDetails  (req,res) {
   const id = req.body.id;
   const user = await User.findById(id).select("username age bio city");
   if (!user) {
@@ -40,9 +40,9 @@ exports.getWelcomePageDetails = catchAsync(async (req, res, next) => {
     status: "success",
     user,
   });
-});
+};
 
-exports.connectWith = catchAsync(async (req, res, next) => {
+export async function connectWith  (req,res) {
   const { id, connect_with } = req.body;
 
   const user = await User.findByIdAndUpdate(
@@ -61,9 +61,9 @@ exports.connectWith = catchAsync(async (req, res, next) => {
     status: "success",
     user,
   });
-});
+};
 
-exports.likeAUser = catchAsync(async (req, res, next) => {
+export async function likeAUser  (req,res) {
   const { id, likeId } = req.body;
 
   // Update the user who is liking
@@ -85,9 +85,9 @@ exports.likeAUser = catchAsync(async (req, res, next) => {
     userLiked,
     userLiking,
   });
-});
+};
 
-exports.likedByOthers = catchAsync(async (req, res, next) => {
+export async function likedByOthers  (req,res) {
   const { id } = req.body;
   const usersLiked = await User.findOne({ _id: id })
     .select("others_liked")
@@ -106,9 +106,9 @@ exports.likedByOthers = catchAsync(async (req, res, next) => {
     status: "success",
     usersLiked,
   });
-});
+};
 
-exports.userPreferenceSettings = catchAsync(async (req, res, next) => {
+export async function userPreferenceSettings  (req,res) {
   const { id, ...prefSettingsData } = req.body;
 
   const newPrefSettings = await prefSettings.create(prefSettingsData);
@@ -124,9 +124,9 @@ exports.userPreferenceSettings = catchAsync(async (req, res, next) => {
     status: "success",
     user,
   });
-});
+};
 
-exports.getUserProfile1 = catchAsync(async (req, res, next) => {
+export async function getUserProfile1  (req,res) {
   const { id } = req.body;
   const user = await User.findById(id).select(
     "name age bio city interests fav_cuisine spotify_song spotify_song_reason education profession social_media ethnicity"
@@ -140,9 +140,9 @@ exports.getUserProfile1 = catchAsync(async (req, res, next) => {
     status: "success",
     user,
   });
-});
+};
 
-exports.getUserProfile2 = catchAsync(async (req, res, next) => {
+export async function getUserProfile2  (req,res) {
   const { id } = req.body;
   const user = await User.findById(id).select(
     "name age bio city good_life_quote win_life_quote"
@@ -156,9 +156,9 @@ exports.getUserProfile2 = catchAsync(async (req, res, next) => {
     status: "success",
     user,
   });
-});
+};
 
-exports.reportUser = catchAsync(async (req, res, next) => {
+export async function reportUser  (req,res) {
   const { id, ...reportData } = req.body;
   const user = await User.findById(id);
 
@@ -176,9 +176,9 @@ exports.reportUser = catchAsync(async (req, res, next) => {
     status: "success",
     user,
   });
-});
+};
 
-exports.createNotificationSettings = catchAsync(async (req, res, next) => {
+export async function createNotificationSettings  (req,res) {
   const { id, ...notificationData } = req.body;
   const user = await User.findById(id);
 
@@ -202,9 +202,9 @@ exports.createNotificationSettings = catchAsync(async (req, res, next) => {
     status: "success",
     user,
   });
-});
+};
 
-exports.updateNotificationSettings = catchAsync(async (req, res, next) => {
+export async function updateNotificationSettings  (req,res) {
   const { id, ...notificationData } = req.body;
   const user = await User.findById(id);
   const notificationSettings = await NotificationSettings.findOneAndUpdate(
@@ -221,9 +221,9 @@ exports.updateNotificationSettings = catchAsync(async (req, res, next) => {
     status: "success",
     notificationSettings,
   });
-});
+};
 
-exports.createSettings = catchAsync(async (req, res, next) => {
+export async function createSettings(req,res) {
   const { id, ...settingsData } = req.body;
   const user = await User.findById(id);
 
@@ -245,9 +245,9 @@ exports.createSettings = catchAsync(async (req, res, next) => {
     status: "success",
     user,
   });
-});
+};
 
-exports.updateSettings = catchAsync(async (req, res, next) => {
+export async function updateSettings  (req,res) {
   const { id, ...settingsData } = req.body;
   const user = await User.findById(id);
 
@@ -265,9 +265,9 @@ exports.updateSettings = catchAsync(async (req, res, next) => {
     status: "success",
     settings,
   });
-});
+};
 
-exports.verifyMe = catchAsync(async (req, res, next) => {
+export async function verifyMe  (req,res) {
   const { email } = req.body;
 
   const user = await User.findOne({ email });
@@ -285,4 +285,4 @@ exports.verifyMe = catchAsync(async (req, res, next) => {
     status: "success",
     message: "Please check you email for verification link.",
   });
-});
+};

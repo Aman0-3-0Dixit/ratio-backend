@@ -1,17 +1,20 @@
-const mongoose = require("mongoose");
-
+import mongoose from 'mongoose'
+import conversation from './models/conversationModel.mjs';
+import {sendMessage,getUserConversations,getConversationMessages } from './controllers/messageController.mjs';
+import * as temp from './controllers/userController.mjs'
+import User from './models/userModel.mjs'; // Import the User model
 process.on("uncaughtException", (err) => {
   console.log("Unhandled exception 💥 Shutting down.");
   console.log(err);
   process.exit(1);
 });
 
-const app = require("./app");
+import app from './app.mjs'
 
 const DB =
   // "mongodb+srv://kshitijg:65p31pMH8LdOgAvq@cluster0.1vkr70l.mongodb.net/ratio-backend?retryWrites=true&w=majority";
-  "mongodb+srv://mohith:7XsxP34sfPaby5Pu@.turjqqr.mongodb.net/?retryWrites=true&w=majority&appName=ratioBackend0"
-mongoose
+'mongodb+srv://Ratio2024:Fantom2024@ratio.xgqcba5.mongodb.net/?retryWrites=true&w=majority&appName=Ratio'
+  mongoose
   .connect(DB)
   .then((con) => {
     console.log("DB connection established successfully.");
@@ -20,10 +23,12 @@ mongoose
     console.log(err.message);
   });
 
+
 const port = process.env.PORT || 3000;
 
 const server = app.listen(port, () => {
   console.log(`Server running on port ${port}`); // eslint-disable-line
+  
 });
 
 process.on("unhandledRejection", (err) => {
