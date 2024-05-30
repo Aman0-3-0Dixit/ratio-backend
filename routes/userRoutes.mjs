@@ -80,7 +80,7 @@ router
 // Route to send a message
 router.post('/messages',verifyToken, sendMessage);
 // Route to get all Conversations of user. 
-router.get('/conversations', getUserConversations);
+router.get('/conversations/:userId', getUserConversations);
 // Route to retrieve messages for a conversation
 router.get('/messages/:conversationId', getConversationMessages);
 

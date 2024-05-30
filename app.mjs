@@ -17,7 +17,7 @@ app.use(cors());
 app.options("*", cors());
 app.use(express.json());
 
-app.use("/users", userRouter);
+app.use("/user", userRouter);
 
 app.all("*", (req, res, next) => {
   const err = new AppError(`Can't find ${req.url} on the server.`, 404);
