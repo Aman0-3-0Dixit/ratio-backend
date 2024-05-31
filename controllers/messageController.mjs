@@ -39,7 +39,6 @@ export async function sendMessage (req, res) {
 export async function getConversationMessages(req, res) {
   try { 
     const conversation = await Conversation.findById(req.params.conversationId)
-      .populate('messages'); // Populate sender and recipient details
 
     if (!conversation) {
       return res.status(404).json({ error: 'Conversation not found' });
@@ -61,7 +60,6 @@ export async function getUserConversations  (req, res){
     const conversations = await Conversation.find({
       participants: { $all: [userId] }
             })
-    .populate('participants', 'messages') // Populate user data for display
     .sort({ updatedAt: -1 }); // Sort by most recent update 
       // console.log("Conversations found:", conversations);
     res.status(200).json(conversations); 
