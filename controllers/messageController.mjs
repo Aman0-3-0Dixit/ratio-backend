@@ -1,8 +1,8 @@
-import Conversation from '../models/conversationModel.mjs'
-
+// import  { Conversation, Message } from '../models/conversationModel.mjs'
+import {Conversation,Message} from '../models/conversationModel.mjs'
 // Function to send a message
 export async function sendMessage (req, res) {
-  const senderId = req.user._id; // Replace with actual user ID retrieval
+  const senderId = req.params.userId; // Replace with actual user ID retrieval
   const recipientId = req.body.recipientId;
   const content = req.body.content;
 
@@ -19,7 +19,7 @@ export async function sendMessage (req, res) {
       });
     }
 
-    const newMessage = new Conversation.messageSchema({
+    const newMessage = new Message({
       sender: senderId,
       recipient: recipientId,
       content: content
@@ -55,16 +55,19 @@ export async function getConversationMessages(req, res) {
 // Function to retrieve a user's conversations
 export async function getUserConversations  (req, res){
   try {
-    const userId = req.user._id;
+    // const userId = req.params.userId;
 
+    const userId = req.params.userId; 
     const conversations = await Conversation.find({
-      participants: userId
-    }).populate('participants', 'name images') // Populate user data for display
-      .sort({ updatedAt: -1 }); // Sort by most recent update
-
+      participants: { $all: [userId] }
+            })
+    .populate('participants','messages') // Populate user data for display
+    .sort({ updatedAt: -1 }); // Sort by most recent update 
+      // console.log("Conversations found:", conversations);
     res.status(200).json(conversations); 
   } catch (err) {
     console.error(err);
+    console.log('userId:', userId);
     res.status(500).json({ error: 'Failed to retrieve conversations' });
   }
 };

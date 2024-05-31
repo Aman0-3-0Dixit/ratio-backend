@@ -1,8 +1,4 @@
 import mongoose from 'mongoose'
-import conversation from './models/conversationModel.mjs';
-import {sendMessage,getUserConversations,getConversationMessages } from './controllers/messageController.mjs';
-import * as temp from './controllers/userController.mjs'
-import User from './models/userModel.mjs'; // Import the User model
 process.on("uncaughtException", (err) => {
   console.log("Unhandled exception 💥 Shutting down.");
   console.log(err);

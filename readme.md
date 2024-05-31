@@ -29,8 +29,12 @@ This repository contains base code for ratio backend.
 - `GET /users`: Retrieves all users from the database.
 - `GET /users/{id}`: Retrieves a user from the database.
 
+
+- `POST /message/:userId`: messages the receipient from body
+
 - `GET /messages/:conversationId`: gets conversation from database.
-- `GET /conversations`: Retrieves all the conversations from Database
+- `GET /conversations/:userId`: Retrieves all the conversations from Database
+
 ## Models
 
 

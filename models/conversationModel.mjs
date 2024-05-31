@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+import User from './userModel.mjs';
 const messageSchema = new mongoose.Schema({
   sender: {
     type: mongoose.Schema.Types.ObjectId,
@@ -26,6 +27,8 @@ const messageSchema = new mongoose.Schema({
     type: Boolean,
     default: false
   }
+},{
+  timestamps: true  // Automatically add `createdAt` and `updatedAt` fields
 });
 
 const conversationSchema = new mongoose.Schema({
@@ -39,5 +42,6 @@ const conversationSchema = new mongoose.Schema({
     default: Date.now
   }
 });
-
-export default mongoose.model('Conversation', conversationSchema);
+const Conversation = mongoose.model('Conversation', conversationSchema);
+const Message = mongoose.model('Message', messageSchema)
+export { Conversation, Message }; 
