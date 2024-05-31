@@ -5,6 +5,7 @@ export async function sendMessage (req, res) {
   const senderId = req.params.userId; // Replace with actual user ID retrieval
   const recipientId = req.body.recipientId;
   const content = req.body.content;
+  const attachments = req.body.attachments;
 
   try {
     // Check if conversation already exists
@@ -22,7 +23,8 @@ export async function sendMessage (req, res) {
     const newMessage = new Message({
       sender: senderId,
       recipient: recipientId,
-      content: content
+      content: content,
+      attachments:attachments
     });
 
     conversation.messages.push(newMessage);
