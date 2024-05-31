@@ -31,7 +31,6 @@ This repository contains base code for ratio backend.
 
 
 - `POST /message/:userId`: messages the receipient from body
-
 - `GET /messages/:conversationId`: gets conversation from database.
 - `GET /conversations/:userId`: Retrieves all the conversations from Database
 
