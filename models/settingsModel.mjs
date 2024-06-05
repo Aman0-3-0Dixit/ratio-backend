@@ -1,5 +1,5 @@
-const mongoose = require("mongoose");
-const validator = require("validator");
+import mongoose from "mongoose"
+import validator from "validator"
 
 const userSettingsSchema = new mongoose.Schema({
   user: {
@@ -35,5 +35,4 @@ const userSettingsSchema = new mongoose.Schema({
 });
 
 const UserSettings = mongoose.model("UserSettings", userSettingsSchema);
-
-module.exports = UserSettings;
+export default UserSettings;

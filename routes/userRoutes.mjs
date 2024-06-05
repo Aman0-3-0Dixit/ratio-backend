@@ -4,6 +4,54 @@ import verifyToken from '../middlewares/checkAuth.mjs';
 import * as userController from '../controllers/userController.mjs';
 import {sendMessage,getUserConversations,getConversationMessages } from '../controllers/messageController.mjs';
 
+router.post("/signup", async (req, res) => {
+  console.log('inside signup route');
+  try {
+      const user = new User({
+          _id: new mongoose.Types.ObjectId(),
+          phoneNumber: req.body.phoneNumber
+      });
+
+      await user.save();
+
+      const payload = {
+          _id: user._id,
+          phone_number: user.phoneNumber
+      };
+
+      const token = jwt.sign(payload, process.env.JWT_SECRET_KEY, { expiresIn: '1h' });
+      console.log(token);
+
+      res.status(201).json({ result: true, message: "Signed up successfully", token: token });
+  } catch (err) {
+      console.log(err);
+      res.status(500).json({ result: false, message: "Failed to sign up" });
+  }
+});
+
+
+router.post("/login", async (req, res) => {
+  User.findOne({ phoneNumber: req.body.phoneNumber })
+  .then( user => {
+    if(user){
+        const payload = {
+            _id: user._id,
+            phone_number: user.phoneNumber
+        };
+        
+        const token = jwt.sign(payload, process.env.JWT_SECRET_KEY, { expiresIn: '1h' });
+
+        res.status(201).json({ result: true, message: "Logged in successfully", token: token }); 
+    }else{
+      res.status(500).json({ result: false, message: "User not found" });
+    }
+  })
+  .catch(error => {
+    console.log(error);
+    res.status(500).json({ result: false, message: "Failed to log in" });
+  });
+});
+
 
 
 
@@ -30,7 +78,7 @@ router
   .route("/updateNoficationSettings")
   .patch(userController.updateNotificationSettings);
 // Route to send a message
-router.post('/message/:userId', sendMessage);
+router.post('/message/:userId',verifyToken, sendMessage);
 // Route to get all Conversations of user. 
 router.get('/conversations/:userId', getUserConversations);
 // Route to retrieve messages for a conversation

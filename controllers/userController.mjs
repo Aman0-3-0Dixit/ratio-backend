@@ -1,10 +1,10 @@
 import catchAsync from "../utils/catchAsync.js"
 import User from "../models/userModel.mjs"
 import AppError from "../utils/appError.mjs"
-import prefSettings from "../models/prefSettingsModel.js"
-import Report from "../models/reportsModel.js"
-import NotificationSettings from "../models/notificationModel.js"
-import UserSettings from "../models/settingsModel.js"
+import prefSettings from "../models/prefSettingsModel.mjs"
+import Report from "../models/reportsModel.mjs"
+import NotificationSettings from "../models/notificationModel.mjs"
+import UserSettings from "../models/settingsModel.mjs"
 import { sendVerificationMail } from "../utils/mail/mail.js"
 
 export async function getAllUsers (req,res){

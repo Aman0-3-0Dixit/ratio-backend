@@ -47,4 +47,5 @@ const prefSettingsSchema = new mongoose.Schema({
 
 const prefSettings = mongoose.model("prefSettings", prefSettingsSchema);
 
-module.exports = prefSettings;
+// module.exports = prefSettings;
+export default prefSettings
