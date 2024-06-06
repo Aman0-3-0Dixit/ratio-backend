@@ -1,6 +1,8 @@
 import mongoose from "mongoose"
+import { Schema, model } from 'mongoose';
 
 const prefSettingsSchema = new mongoose.Schema({
+  _id: Schema.Types.ObjectId,
   distance: {
     min_distance: {
       type: Number,

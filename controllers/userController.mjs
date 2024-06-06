@@ -1,5 +1,6 @@
 import catchAsync from "../utils/catchAsync.js"
 import User from "../models/userModel.mjs"
+import userInfoSchema from "../models/userInfo.mjs"
 import AppError from "../utils/appError.mjs"
 import prefSettings from "../models/prefSettingsModel.mjs"
 import Report from "../models/reportsModel.mjs"
@@ -28,6 +29,38 @@ export async function getUserById  (req,res) {
     user,
   });
 };
+
+export async function getUserInfosById (req,res) {
+
+
+    const idsList = req.params.customIds.split(',');
+    console.log(idsList);
+    const userInfo = await userInfoSchema.find({
+                                 '_id': { $in: idsList }
+                             }).select('_id firstName images');
+
+    if (userInfo) {
+      console.log(userInfo.length);
+      res.json(userInfo);
+    } else {
+      res.status(404).send('Item not found');
+    }
+}
+
+
+export async function getUserInfoById (req,res) {
+    const id = req.params.customId;
+    console.log(id);
+    const userInfo = await userInfoSchema.findOne({'_id': id});
+    console.log(userInfo);
+    if (userInfo) {
+      console.log(userInfo.length);
+      res.json(userInfo);
+    } else {
+      res.status(404).send('Item not found');
+    }
+}
+
 
 export async function getWelcomePageDetails  (req,res) {
   const id = req.body.id;
@@ -109,9 +142,11 @@ export async function likedByOthers  (req,res) {
 };
 
 export async function userPreferenceSettings  (req,res) {
-  const { id, ...prefSettingsData } = req.body;
-
+  const { id, prefSettingsData } = req.body;
+  console.log(prefSettingsData);
   const newPrefSettings = await prefSettings.create(prefSettingsData);
+  console.log(newPrefSettings);
+
   const user = await User.findByIdAndUpdate(
     id,
     { prefSettings: newPrefSettings._id },
@@ -125,6 +160,20 @@ export async function userPreferenceSettings  (req,res) {
     user,
   });
 };
+
+export async function getPrefSettings(req, res) {
+    console.log(req.params);
+    const id = req.params.customID;
+    console.log(id);
+    const settings = await prefSettings.findOne({'_id': id});
+    console.log(settings);
+    if (settings) {
+      res.json(settings);
+    } else {
+      res.status(404).send('Item not found');
+    }
+}
+
 
 export async function getUserProfile1  (req,res) {
   const { id } = req.body;
@@ -274,6 +323,23 @@ try {
   console.log(error)
 }
 };
+
+
+export async function getUserSettings(req, res) {
+    console.log("hey");
+    console.log(req.params);
+    const id = req.params.customID;
+    console.log(id);
+    const settings = await UserSettings.findOne({'_id': id});
+    console.log(settings);
+    if (settings) {
+      res.json(settings);
+    } else {
+      res.status(404).send('Item not found');
+    }
+
+}
+
 
 export async function verifyMe  (req,res) {
   const { email } = req.body;
