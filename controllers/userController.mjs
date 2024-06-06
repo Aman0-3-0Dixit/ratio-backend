@@ -223,9 +223,10 @@ export async function updateNotificationSettings  (req,res) {
   });
 };
 
-export async function createSettings(req,res) {
-  const { id, ...settingsData } = req.body;
-  const user = await User.findById(id);
+export async function createSettings(req,res,next) {
+  try {
+    const { id, ...settingsData } = req.body;
+  const user = await User.findById(id); 
 
   if (!user) {
     return next(new AppError("User not found.", 404));
@@ -238,16 +239,20 @@ export async function createSettings(req,res) {
   }
 
   await User.findByIdAndUpdate(id, {
-    settings: settings._id,
+    settings: settings._id, 
   });
 
   res.status(200).json({
     status: "success",
     user,
   });
+  } catch (error) {
+    console.log(error)
+  }
 };
 
 export async function updateSettings  (req,res) {
+try {
   const { id, ...settingsData } = req.body;
   const user = await User.findById(id);
 
@@ -258,13 +263,16 @@ export async function updateSettings  (req,res) {
   );
 
   if (!settings) {
-    return next(new AppError("Something went wrong. Please try again.", 500));
+    return next(new AppError("User settings not found.", 404)); 
   }
-
+  
   res.status(200).json({
     status: "success",
     settings,
   });
+} catch (error) {
+  console.log(error)
+}
 };
 
 export async function verifyMe  (req,res) {
