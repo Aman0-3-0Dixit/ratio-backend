@@ -162,7 +162,6 @@ export async function userPreferenceSettings  (req,res) {
 };
 
 export async function getPrefSettings(req, res) {
-    console.log(req.params);
     const id = req.params.customID;
     console.log(id);
     const settings = await prefSettings.findOne({'_id': id});
@@ -174,6 +173,27 @@ export async function getPrefSettings(req, res) {
     }
 }
 
+export async function updatePrefSettings(req, res) {
+
+    const id = req.params.customID;
+    const  prefSettingsData  = req.body;
+    console.log(id, prefSettingsData);
+    console.log("ns",prefSettingsData);
+    const updatedPrefSettings = await prefSettings.findByIdAndUpdate(id, prefSettingsData, {new : true, runValidators : true});
+    if (!updatedPrefSettings) {
+          return res.status(404).json({
+            status: 'fail',
+            message: 'No preference settings found with that ID'
+          });
+    }
+    // Respond with the updated settings
+    res.status(200).json({
+      status: 'success',
+      data: {
+        prefSettings: updatedPrefSettings
+      }
+    });
+}
 
 export async function getUserProfile1  (req,res) {
   const { id } = req.body;

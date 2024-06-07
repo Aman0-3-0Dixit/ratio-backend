@@ -61,6 +61,7 @@ router.get("/getUserInfo/:customId", userController.getUserInfoById);
 router.get("/getUserSettings/:customID", userController.getUserSettings);
 router.get("/getPrefSettings/:customID", userController.getPrefSettings);
 
+
 router.route("/welcomePageDetails").get(userController.getWelcomePageDetails);
 router.route("/connectWith").patch(userController.connectWith);
 
@@ -70,6 +71,8 @@ router.route("/likeAUser").post(userController.likeAUser);
 router
   .route("/userPreferenceSettings")
   .post(userController.userPreferenceSettings);
+
+router.patch("/updatePreferenceSettings/:customID", userController.updatePrefSettings);
 
 router.route("/getUserProfile-1").get(userController.getUserProfile1);
 router.route("/getUserProfile-2").get(userController.getUserProfile2);
