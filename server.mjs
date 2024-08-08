@@ -1,4 +1,7 @@
+import dotenv from 'dotenv';
+dotenv.config();
 import mongoose from 'mongoose'
+import { createServer } from 'http';
 process.on("uncaughtException", (err) => {
   console.log("Unhandled exception 💥 Shutting down.");
   console.log(err);

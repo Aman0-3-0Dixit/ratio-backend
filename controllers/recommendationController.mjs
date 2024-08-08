@@ -10,7 +10,7 @@ import fetch from 'node-fetch';
 
 
 dotenv.config();
-const apiKey =  process.env.GOOGLE_PLACES_TYPES_API_KEY;
+const apiKey =  process.env.GOOGLE_PLACES_API_KEY;
 
 async function getLatLng(address) {
     

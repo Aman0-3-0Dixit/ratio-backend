@@ -1,6 +1,6 @@
 import { Schema, model } from 'mongoose';
 
-const userInitialSchema = new Schema({
+const deleteUserSchema = new Schema({
     _id: Schema.Types.ObjectId,
     phoneNumber: {
         type: String,
@@ -10,15 +10,14 @@ const userInitialSchema = new Schema({
         match: [/^[+]{1}(?:[0-9\-\\(\\)\\/.]\s?){6,15}[0-9]{1}$/, "Please enter a valid phone number."]
     },
     createdAt: {
-        type: Date,
-        default: Date.now,
-    },
-    updatedAt: {
-        type: Date,
+        type: Number,
         default: Date.now,
     }
 });
 
-const User = model('UserInitial', userInitialSchema);
+deleteUserSchema.pre('save', function (next) {
+    this.createdAt = new Date(this.createdAt).getTime();
+    next();
+});
 
-export default User;
+export default model('DeleteUser', deleteUserSchema);
