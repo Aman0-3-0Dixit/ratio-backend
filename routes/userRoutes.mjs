@@ -56,7 +56,7 @@ router.post("/login", async (req, res) => {
 
 
 router.route("/").get(userController.getAllUsers);
-router.get("/userInfo/:customIds", userController.getUserInfosById);
+router.get("/userinfo/:customIds", userController.getUserInfosById);
 router.get("/getUserInfo/:customId", userController.getUserInfoById);
 router.get("/getUserSettings/:customID", userController.getUserSettings);
 router.get("/getPrefSettings/:customID", userController.getPrefSettings);
@@ -85,7 +85,7 @@ router
   .route("/updateNoficationSettings")
   .patch(userController.updateNotificationSettings);
 // Route to send a message
-router.post('/message/:userId',verifyToken, sendMessage);
+router.post('/message/:userId', sendMessage);
 // Route to get all Conversations of user. 
 router.get('/conversations/:userId', getUserConversations);
 // Route to retrieve messages for a conversation

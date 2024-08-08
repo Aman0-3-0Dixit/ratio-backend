@@ -38,9 +38,14 @@ const prefSettingsSchema = new mongoose.Schema({
   },
   gender: {
     type: String,
-    enum: ["male", "female"],
+    enum: ["Male", "Female", "Transgender Female", "Transgender Male", "Non-conforming","Others"],
     required: [true, "Please enter your gender."],
   },
+  genderToShow: {
+      type: String,
+      enum: ["Male", "Female", "Both"],
+      required: [true, "Please enter your gender."],
+    },
   createdAt: {
     type: Date,
     default: Date.now,

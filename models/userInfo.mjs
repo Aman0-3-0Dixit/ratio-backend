@@ -39,16 +39,16 @@ const userInfoSchema = Schema({
     partnerPreferences: {
         genderPreference: {
             type: String,
-            enum: ['Male','Female','Both','Nonbinary']
+            enum: ['Male', 'Female', 'Both', 'Nonbinary']
         },
         partnerAge: {
-            type: Number,
+            type: Array,
             min: [18, 'Age must be at least 18.']
         }
     },
     cuisinePreferences: {
         type: [String],
-        validate: { validator: (val) => val.length <= 2, message: 'Select upto 2 options' }
+        validate: { validator: (val) => val.length <= 2, message: 'Select up to 2 options' }
     },
     bio: {
         type: String,
@@ -64,14 +64,20 @@ const userInfoSchema = Schema({
     },
     ethnicity: {
         type: [String],
-        validate: { validator: (val) => val.length <= 2, message: 'Select upto 2 options' }
+        validate: { validator: (val) => val.length <= 2, message: 'Select up to 2 options' }
     },
     interests: {
         type: [String],
-        validate: { validator: (val) => val.length <= 2, message: 'Select upto 3 options' }
+        validate: { validator: (val) => val.length <= 3, message: 'Select up to 3 options' }
     },
-
-    musicPrompt: [{
+    musicPrompt: {
+        type: String,
+        maxLength: 300
+    },
+    themeSong: {
+        type: String
+    },
+    writtenPrompt: [{
         promptHead: {
             type: String,
             required: true
@@ -80,38 +86,43 @@ const userInfoSchema = Schema({
             type: String,
             maxLength: 300
         }
-    }],   
-
-    themeSong: {
-        type: String
-    },
-
-    writtenPrompt: {
-        type: String,
-        maxLength: 500
-    },
-
+    }],
     images: {
         type: [String],
         required: true,
-        validate: { validator: (val) => val.length >= 3, message: 'Pick at least 3 photos'}
+        validate: { validator: (val) => val.length >= 3, message: 'Pick at least 3 photos' }
     },
-    location: {
+    locationPermission: {
         type: String,
-        enum: ["Allow Once","Allow While Using App","Don't allow"],
+        enum: ["Allow Once", "Allow While Using App", "Don't allow"],
+    },
+    currentLocation: {
+        type: [Number],
+        validate: {
+            validator: function (val) {
+                return val.length === 2;
+            },
+            message: 'Current location must contain 2 elements : longitude as well as latitude'
+        }
     },
     notifications: {
         type: Boolean,
         default: true,
     },
     createdAt: {
-        type: Date,
+        type: Number,
         default: Date.now,
     },
     updatedAt: {
-        type: Date,
+        type: Number,
         default: Date.now,
     }
+});
+
+userInfoSchema.pre('save', function (next) {
+    this.createdAt = new Date(this.createdAt).getTime();
+    this.updatedAt = new Date(this.updatedAt).getTime();
+    next();
 });
 
 export default model('UserInfo', userInfoSchema);

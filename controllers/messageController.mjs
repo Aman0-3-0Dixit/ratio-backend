@@ -57,14 +57,14 @@ export async function getConversationMessages(req, res) {
 export async function getUserConversations  (req, res){
   try {
     // const userId = req.params.userId;
-
-    const userId = req.params.userId; 
+    console.log(req.params);
+    const userId = req.params.userId;
     const conversations = await Conversation.find({
       participants: { $all: [userId] }
             })
-    .sort({ updatedAt: -1 }); // Sort by most recent update 
-      // console.log("Conversations found:", conversations);
-    res.status(200).json(conversations); 
+    .sort({ updatedAt: -1 }); // Sort by most recent update
+      console.log("Conversations found:", conversations);
+    res.status(200).json(conversations);
   } catch (err) {
     console.error(err);
     console.log('userId:', userId);

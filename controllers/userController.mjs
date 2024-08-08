@@ -1,4 +1,4 @@
-import catchAsync from "../utils/catchAsync.js"
+import catchAsync from "../utils/catchAsync.mjs"
 import User from "../models/userModel.mjs"
 import userInfoSchema from "../models/userInfo.mjs"
 import AppError from "../utils/appError.mjs"
@@ -31,7 +31,7 @@ export async function getUserById  (req,res) {
 };
 
 export async function getUserInfosById (req,res) {
-
+    console.log("getUserInfosById", req.params);
 
     const idsList = req.params.customIds.split(',');
     console.log(idsList);
@@ -177,8 +177,6 @@ export async function updatePrefSettings(req, res) {
 
     const id = req.params.customID;
     const  prefSettingsData  = req.body;
-    console.log(id, prefSettingsData);
-    console.log("ns",prefSettingsData);
     const updatedPrefSettings = await prefSettings.findByIdAndUpdate(id, prefSettingsData, {new : true, runValidators : true});
     if (!updatedPrefSettings) {
           return res.status(404).json({
