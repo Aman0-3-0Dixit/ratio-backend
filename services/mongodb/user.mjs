@@ -1,6 +1,6 @@
 import ProfileLike from "../../models/profileLike.mjs";
 
-const searchByUserTo = async (userId) => {
+export const searchByUserTo = async (userId) => {
     try {
         const userResponse = await ProfileLike.find({ 
             userTo: userId 
@@ -11,4 +11,14 @@ const searchByUserTo = async (userId) => {
     }
 }
 
-export default searchByUserTo;
+export const searchByUserFrom = async (userId) => {
+    try {
+        const userResponse = await ProfileLike.find({
+            userFrom: userId
+        });
+        return userResponse;
+    } catch (error) {
+        return error;
+    }
+}
+

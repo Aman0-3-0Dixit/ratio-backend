@@ -55,6 +55,32 @@ export const searchPlaceFromQuery = catchAsync(async (req, res, next) => {
 });
 
 
+// Helper function to map cuisine types to valid values from Table A
+const mapCuisineToType = (cuisineType) => {
+    const typeMapping = {
+        Italian: 'italian_restaurant',
+        Chinese: 'chinese_restaurant',
+        Indian: 'indian_restaurant',
+        American: 'american_restaurant',
+        Japanese: 'japanese_restaurant',
+        Korean: 'korean_restaurant',
+        French: 'french_restaurant',
+        Mexican: 'mexican_restaurant',
+        Thai: 'thai_restaurant',
+        Turkish: 'turkish_restaurant',
+        Lebanese: 'lebanese_restaurant',
+        Greek: 'greek_restaurant',
+        Viet: 'vietnamese_restaurant',
+        Spanish: 'spanish_restaurant',
+        Mediterranean: 'mediterranean_restaurant',
+        Indonesian: 'indonesian_restaurant',
+        Brazilian: 'brazilian_restaurant',
+        // Add more mappings based on Table A values and cuisineType requirements
+    };
+    return typeMapping[cuisineType] || 'restaurant'; // Default to 'restaurant' if no match
+};
+
+
 // Search for places nearby a latitude, longitude
 export const searchPlacesNearby = catchAsync(async (req, res, next) => {
     console.log(req.query);
@@ -74,7 +100,11 @@ export const searchPlacesNearby = catchAsync(async (req, res, next) => {
         maxResultCount,
         rankPreference,
         regionCode,
+        cuisineType, // This could be used to map to an appropriate value in Table A
     } = req.query;
+
+    // If cuisineType is provided, override the includedTypes with a relevant type from Table A
+    const mappedType = cuisineType ? mapCuisineToType(cuisineType) : includedTypes;
 
     const data = {
         locationRestriction: {
@@ -86,7 +116,7 @@ export const searchPlacesNearby = catchAsync(async (req, res, next) => {
                 radius: radius,
             },
         },
-        ...(includedTypes        && {includedTypes:       includedTypes}),
+        ...(includedTypes        && {includedTypes:       [mappedType]}),
         ...(includedPrimaryTypes && {includedPrimaryTypes:includedPrimaryTypes}),
         ...(excludedTypes        && {excludedTypes:       excludedTypes}),
         ...(excludedPrimaryTypes && {excludedPrimaryTypes:excludedPrimaryTypes}),

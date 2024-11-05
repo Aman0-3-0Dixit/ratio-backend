@@ -4,5 +4,6 @@ import * as profileLikesListController from "../controllers/profileLikesListCont
 const router = express.Router();
 
 router.get("/:id", profileLikesListController.profileLikesList);
+router.get("/mutualLikes/:id", profileLikesListController.profileMutualLikesList);
 
 export default router;

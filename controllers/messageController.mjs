@@ -1,5 +1,37 @@
 // import  { Conversation, Message } from '../models/conversationModel.mjs'
 import {Conversation,Message} from '../models/conversationModel.mjs'
+
+
+export async function createConversation(req, res) {
+  const userId1 = req.params.userId1; // Replace with actual user ID retrieval
+  const userId2 = req.params.userId2; // Replace with actual user ID retrieval
+
+  try {
+    // Check if conversation already exists
+    let conversation = await Conversation.findOne({
+      participants: { $all: [userId1, userId2] }
+    });
+
+    if (!conversation) {
+      // Create a new conversation if it doesn't exist
+      conversation = new Conversation({
+        participants: [userId1, userId2],
+        messages: [] // No messages initially
+      });
+
+      await conversation.save();
+      res.json({ message: 'Conversation created successfully!' });
+    } else {
+      res.json({ message: 'Conversation already exists!' });
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to create conversation' });
+  }
+};
+
+
+
 // Function to send a message
 export async function sendMessage (req, res) {
   const senderId = req.params.userId; // Replace with actual user ID retrieval

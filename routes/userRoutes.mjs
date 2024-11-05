@@ -2,7 +2,7 @@ import express from 'express';
 const router = express.Router();
 import verifyToken from '../middlewares/checkAuth.mjs';
 import * as userController from '../controllers/userController.mjs';
-import {sendMessage,getUserConversations,getConversationMessages } from '../controllers/messageController.mjs';
+import {sendMessage,getUserConversations,getConversationMessages, createConversation } from '../controllers/messageController.mjs';
 
 router.post("/signup", async (req, res) => {
   console.log('inside signup route');
@@ -90,6 +90,8 @@ router.post('/message/:userId', sendMessage);
 router.get('/conversations/:userId', getUserConversations);
 // Route to retrieve messages for a conversation
 router.get('/messages/:conversationId', getConversationMessages);
+
+router.post('/messages/createConversation/:userId1/:userId2', createConversation);
 
 router.route("/createSettings").post(userController.createSettings);
 router.route("/updateSettings").patch(userController.updateSettings);

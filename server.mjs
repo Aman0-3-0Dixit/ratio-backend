@@ -12,7 +12,7 @@ import app from './app.mjs'
 
 const DB =
   // "mongodb+srv://kshitijg:65p31pMH8LdOgAvq@cluster0.1vkr70l.mongodb.net/ratio-backend?retryWrites=true&w=majority";
-'mongodb+srv://Ratio2024:Fantom2024@ratio.xgqcba5.mongodb.net/?retryWrites=true&w=majority&appName=Ratio'
+'mongodb+srv://aman:030303@cluster0.tzmby.mongodb.net/?retryWrites=true&w=majority&appName=Ratio'
   mongoose
   .connect(DB)
   .then((con) => {
